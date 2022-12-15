@@ -39,15 +39,15 @@ const Navigation = ({ className, config, screen }) => {
     pos4: { name: '', path: '#' },
     pos5: { name: 'Settings', path: '/settings' },
   };
-  
-  
-  
+
+
+
   useEffect(() => {
-    console.log(config);
-    if(config && config.configurationByPath) 
+    
+    if (config && config.configurationByPath)
       setLogo(config.configurationByPath.item.siteLogo._publishUrl);
     const sdk = prepareRequest();
-    
+
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
       .then((data) => {

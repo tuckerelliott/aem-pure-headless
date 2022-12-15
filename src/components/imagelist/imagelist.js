@@ -114,7 +114,7 @@ const ImageList = ({ content, config }) => {
   };
 
   const containerChange = (e) => {
-    console.log(`${e.target.scrollWidth} ${e.target.clientWidth} ${e.target.scrollLeft}`);
+    
     if ((e.target.scrollWidth - e.target.clientWidth - .5) <= e.target.scrollLeft) {
       e.target.nextElementSibling.style.visibility = 'hidden';
     } else {

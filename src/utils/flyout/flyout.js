@@ -16,7 +16,7 @@ const Flyout = ({ show, config, screen }) => {
   }
 
   function showPayload(e) {
-    console.log(e.target);
+   
     document.querySelectorAll('.selected').forEach(item => {
       item.classList.toggle('selected');
     });
@@ -27,7 +27,7 @@ const Flyout = ({ show, config, screen }) => {
   }
 
   function showResponse(e) {
-    console.log(e.target);
+
     document.querySelectorAll('.selected').forEach(item => {
       item.classList.toggle('selected');
     });

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useErrorHandler } from 'react-error-boundary';
-import Header from '../header/header';
-import Footer from '../footer/footer';
-import { expiry } from '../../utils/settings';
+import Header from '../header';
+import Footer from '../footer';
 import './screendetails.css';
 import { prepareRequest } from '../../utils';
 
@@ -11,16 +10,19 @@ const Screendetails = () => {
   const handleError = useErrorHandler();
 
   const [config, setConfiguration] = useState('');
-  const [data, setData] = useState({});
+  const [content, setContent] = useState({});
   const [title, setTitle] = useState('');
 
   const props = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let loggedin = JSON.parse(localStorage.getItem('loggedin'));
-    if(!expiry() && !loggedin) navigate('/settings');
+  const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
+  const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
+  let loggedin = JSON.parse(localStorage.getItem('loggedin'));
 
+  useEffect(() => {
+    if (!loggedin) navigate('/settings');
+    
     let path = Object.values(props).pop();
 
     const findOverlap = (a, b) => {
@@ -32,12 +34,10 @@ const Screendetails = () => {
 
     const sdk = prepareRequest();
 
-    const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
-    const configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
-    
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-configuration', { path: configPath })
       .then(({ data }) => {
         if (data) {
+
           setConfiguration(data);
 
           if (data && data.configurationByPath) {
@@ -48,18 +48,33 @@ const Screendetails = () => {
           sdk.runPersistedQuery(`aem-demo-assets/gql-demo-adventure-${version}`, { path: path !== '' ? path : data.configurationByPath.item.homePage._path })
             .then(({ data }) => {
               if (data) {
-                console.log(data);
-                let content = {teaser: {
-                  __typename:'TeaserModel',
-                  asset: data.adventureByPath.item.primaryImage,
-                  title: data.adventureByPath.item.title,
-                  description: data.adventureByPath.item.description,
-                  _metadata: data.adventureByPath.item._metadata,
-                  style: 'hero'
-                }};
+               
+                let pretitle = data.adventureByPath.item.description.plaintext;
+                pretitle = pretitle && pretitle.substring(0, pretitle.indexOf('.'));
+
+                let content = {
+
+                  screen: {
+                    body: {
+                      header: {
+                        navigationColor: 'light-nav',
+                        teaser: {
+                          __typename: 'TeaserModel',
+                          asset: data.adventureByPath.item.primaryImage,
+                          title: data.adventureByPath.item.title,
+                          preTitle: pretitle,
+                          _metadata: data.adventureByPath.item._metadata,
+                          style: 'hero',
+                          _path: data.adventureByPath.item._path
+                        }
+                      }
+
+                    }
+                  }
+                };
                 setTitle(data.adventureByPath.item.title);
 
-                setData(content);
+                setContent(content);
               }
             })
             .catch((error) => {
@@ -72,45 +87,27 @@ const Screendetails = () => {
       });
 
 
-  }, [props, handleError, navigate]);
+  }, [handleError, navigate, loggedin, configPath, props, version]);
 
   document.title = title;
-
   return (
     <React.Fragment>
+      {content && content.screen && config.configurationByPath &&
 
-      {config.configurationByPath &&
-        <Header content={data} config={config.configurationByPath.item} />
+        <Header data={content} config={config} className='screendetail' />
       }
 
       <div className='main-body'>
-        {/* <Flyout />
-      {data && data.screen.body.block.map((item) => (
-        <div
-          key={`${item.__typename
-            .toLowerCase()
-            .replace(' ', '-')}-block-${i}`}
-          className='block'
-        >
 
-          <ModelManager
-            key={`${item.__typename}-entity-${i++}`}
-            type={item.__typename}
-            content={item}
-            references={data.screen._references}
-            config={config}
-          >
+        <div>TBD</div>
 
-          </ModelManager>
-        </div>
-      ))} */}
       </div>
       <footer>
         {config.configurationByPath && config.configurationByPath.item.footerExperienceFragment &&
-          <Footer config={config.configurationByPath.item.footerExperienceFragment._authorUrl} />
+          <Footer config={config.configurationByPath.item.footerExperienceFragment} />
         }
       </footer>
-    </React.Fragment>
+    </React.Fragment >
   );
 };
 

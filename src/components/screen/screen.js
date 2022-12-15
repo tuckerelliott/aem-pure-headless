@@ -27,15 +27,10 @@ const Screen = () => {
 
   configPath = `/content/dam/${localStorage.getItem('project')}/site/configuration/configuration`;
   let loggedin = JSON.parse(localStorage.getItem('loggedin'));
+  const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
 
-  console.log(loggedin);
   useEffect(() => {
-
     if (!expiry() && !loggedin) navigate('/settings');
-    // let loggedin = JSON.parse(localStorage.getItem('loggedin'));
-    if (!expiry() && !loggedin) navigate('/settings');
-
-    const version = localStorage.getItem('rda') === 'v1' ? 'v1' : 'v2';
 
     const sdk = prepareRequest();
 
@@ -68,7 +63,7 @@ const Screen = () => {
       });
 
 
-  }, [handleError, navigate, path, loggedin]);
+  }, [handleError, navigate, path, loggedin, version]);
 
   let i = 0;
 
@@ -78,7 +73,7 @@ const Screen = () => {
     <React.Fragment>
 
       {data && data.screen && data.screen.body.header && config.configurationByPath &&
-        <Header data={data} content={data.screen.body.header} config={config} />
+        <Header data={data} content={data.screen.body.header} config={config} className='screen' />
       }
 
       <div className='main-body'>

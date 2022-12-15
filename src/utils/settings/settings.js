@@ -31,7 +31,7 @@ export const expiry = () => {
     localStorage.removeItem('expiry');
     localStorage.removeItem('auth');
     localStorage.setItem('loggedin', false);
-    console.log('whaat');
+   
     return false;
   } else if (!localStorage.getItem('expiry')) {
     return false;
@@ -83,10 +83,9 @@ const Settings = () => {
         .then(({ data }) => {
 
           if (data) {
-            console.log(data);
+            
             setConfig(data);
-            console.log(data.configurationByPath.item);
-            console.log(GlobalStyles);
+            
             localStorage.setItem('loggedin', true);
           }
         })

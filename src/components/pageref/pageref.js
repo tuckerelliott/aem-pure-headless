@@ -18,22 +18,7 @@ const PageRef = ({ content, config }) => {
       content._publishUrl.replace('.html', '.content.html') :
       content._authorUrl.replace('.html', '.content.html?wcmmode=disabled');
 
-    // console.log(url);
-
-    // var options = usePub ? {
-    //   method: 'get',
-    //   headers: new Headers({
-    //     'Authorization': '',
-    //     'Content-Type': 'text/html'
-    //   })
-    // } : {
-    //   method: 'get',
-    //   headers: new Headers({
-    //     'Authorization': `Bearer ${localStorage.auth}`,
-    //     'Content-Type': 'text/html'
-    //   })
-    // };
-
+    
     const headers = usePub ?
       new Headers({
         'Authorization': '',

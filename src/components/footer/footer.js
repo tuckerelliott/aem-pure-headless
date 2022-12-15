@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { externalizeImagesFromHtml } from '../../utils';
 import './footer.css';
+import { useErrorHandler } from 'react-error-boundary';
 
 const Footer = ({ config }) => {
   const [footer, setFooter] = useState('');
+  const handleError = useErrorHandler();
 
   useEffect(() => {
-    //if(!_publishUrl && !_authorUrl) return;
-
-    const usePub = true; //JSON.parse(localStorage.getItem('publish'));
+    if(!config) return;
+    
+    const usePub = JSON.parse(localStorage.getItem('publish'));
 
     const url = usePub ?
       config._publishUrl.replace('.html', '.content.html') :
@@ -41,10 +43,10 @@ const Footer = ({ config }) => {
         }
       })
       .catch((error) => {
-        console.log(error);
+        handleError(error);
       });
 
-  }, [config]);
+  }, [config, handleError]);
 
   return (
     <React.Fragment>

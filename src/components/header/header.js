@@ -6,8 +6,8 @@ import Image from '../image';
 
 import './header.css';
 
-const Header = ({ data, config }) => {
-  const content = data.screen.body.header;
+const Header = ({ data, config, className }) => {
+  const content =  data.screen.body.header;
 
   const fadeOutHandler = () => {
     const hero = document.querySelector('header');
@@ -39,7 +39,7 @@ const Header = ({ data, config }) => {
   });
   
   return (
-    <header className={`home-${content.teaser?'hero':'article'}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
+    <header className={`home-${content.teaser?'hero':'article'} ${className}`} role='banner' data-fragment={content._path} data-model={title && title.join('')}>
       <Navigation className={content.navigationColor} config={config} screen={data} />
 
       {content.teaser &&
@@ -61,7 +61,9 @@ const Header = ({ data, config }) => {
 
 Header.propTypes = {
   data: PropTypes.object,
-  config: PropTypes.object
+  config: PropTypes.object,
+  content: PropTypes.object,
+  className: PropTypes.string
 };
 
 export default Header;

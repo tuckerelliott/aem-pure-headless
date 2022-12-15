@@ -87,7 +87,7 @@ h6 {
 
 .h2,
 h2 {
-  font-size: var(--fontSizeH2, 36px)
+  font-size: var(--fontSizeH2, 1.75em)
 }
 
 .h3,
