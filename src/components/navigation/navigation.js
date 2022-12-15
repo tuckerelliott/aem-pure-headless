@@ -38,11 +38,14 @@ const Navigation = ({ className, config, screen }) => {
     pos4: { name: '', path: '#' },
     pos5: { name: 'Settings', path: '/settings' },
   };
-
-  const logo = config.configurationByPath.item.siteLogo;
-
+  
+  
+  let logo = wkndlogo;
   useEffect(() => {
+    console.log(config);
+    logo = config && config.configurationByPath && config.configurationByPath.item.siteLogo._publishUrl;
     const sdk = prepareRequest();
+    
 
     sdk.runPersistedQuery('aem-demo-assets/gql-demo-navigation', { locale: 'en' })
       .then((data) => {
@@ -89,7 +92,7 @@ const Navigation = ({ className, config, screen }) => {
           <div className='nav-hamburger-icon'></div>
         </div>
         <div className='nav-brand'>
-          <Link to={'/'}><img src={logo ? logo._publishUrl : wkndlogo} alt='logo' /></Link>
+          <Link to={'/'}><img src={logo} alt='logo' /></Link>
         </div>
         <div className='nav-sections'>
           <ul>

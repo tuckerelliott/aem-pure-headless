@@ -50,7 +50,7 @@ const Settings = () => {
   const [loggedin, setLoggedin] = useState(false);
   const [auth, setAuth] = useState('');
   const [serviceURL, setServiceURL] = useState('');
-  const [config, setConfig] = useState('');
+  const [config, setConfig] = useState({});
   const [schema, setSchema] = useState('');
   const [publish, setPublish] = useState(false);
 
@@ -82,7 +82,8 @@ const Settings = () => {
         .then(({ data }) => {
 
           if (data) {
-            setConfig(<Navigation logo={data.configurationByPath.item.siteLogo} />);
+            console.log(data);
+            setConfig(data);
             console.log(data.configurationByPath.item);
             console.log(GlobalStyles);
             localStorage.setItem('loggedin', true);
@@ -157,14 +158,14 @@ const Settings = () => {
     localStorage.setItem(key, value);
   };
 
-  if (auth && endpoint && project && serviceURL && JSON.parse(loggedin)) {
-    getConfiguration();
-  }
+  // if (auth && endpoint && project && serviceURL && JSON.parse(loggedin)) {
+  //   getConfiguration();
+  // }
 
   return (
     <React.Fragment>
       <GlobalStyles></GlobalStyles>
-      <header>{config}</header>
+      <header className='home-hero'><Navigation className='light-nav' config={config} /></header>
       <div className='main-body settings'>
         <div className='settings-form'>
           <form>
@@ -210,16 +211,6 @@ const Settings = () => {
                 value={project}
                 onChange={(e) => setProject(e.target.value)}></input>
             </label>
-
-            
-            <label>Use Publish
-              <input className='use-publish'
-                type='checkbox'
-                name='publish'
-                placeholder=''
-                onSelect={(e) => setInstructions(e.target)}></input>
-            </label>
-
 
             <button className='button'
               type='button'
