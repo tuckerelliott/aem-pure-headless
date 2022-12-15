@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Video from '../video';
 import Image from '../image';
+import { Link } from 'react-router-dom';
 
 import './teaser.css';
 import { LinkManager } from '../../utils';
@@ -50,8 +51,8 @@ const Teaser = ({ content, config }) => {
               <p>{content.description.plaintext}</p>
             )}
 
-            {content.callToAction && content.callToActionLink && (
-              <a href={LinkManager(content.callToActionLink._path, config)} className='button'>{content.callToAction}</a>
+            {content.callToAction && content.callToActionLink && content.style === 'featured' && (
+              <Link to={LinkManager(content.callToActionLink._path, config)} className='button'>{content.callToAction}</Link>
             )}
           </div>
         </div>
