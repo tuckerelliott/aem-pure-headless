@@ -1,7 +1,7 @@
 .fly-out-gql {
   position: absolute;
   top: 0;
-  background: var(--main-color-opacity);
+  background: var(--main-color-opacity-darker);
   color: white;
   font-size: small;
   padding: 50px;

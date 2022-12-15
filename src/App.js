@@ -16,6 +16,9 @@ const App = () => {
 
 
   useEffect(() => {
+    if(JSON.parse(localStorage.getItem('loggedin')))
+      return;
+      
     fetch(process.env.REACT_APP_ACCESS_TOKEN)
       .then(response => ({
         res: response.text().then(token => {

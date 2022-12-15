@@ -64,6 +64,7 @@ const Settings = () => {
     syncLocalStorage('auth', auth);
     syncLocalStorage('project', project);
     syncLocalStorage('publish', publish);
+    syncLocalStorage('loggedin', loggedin);
 
 
     if (localStorage.getItem('expiry') === null)
@@ -113,7 +114,7 @@ const Settings = () => {
             else
               localStorage.setItem('rda', 'v2');
             setSchema(data);
-          }));
+          })).catch(error => handleError(error));
     }
   };
 
@@ -219,7 +220,7 @@ const Settings = () => {
           </form>
           {!schema && (<div className='instructions' dangerouslySetInnerHTML={{ __html: instructionsData[instructions.name] }}>
           </div>)}
-          <pre>{schema}</pre>
+          <pre>{schema && (<div><h3>You are loggedin.  You can now navigate to the app.</h3></div>)}</pre>
         </div>
       </div>
 

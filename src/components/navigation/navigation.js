@@ -30,6 +30,7 @@ const Navigation = ({ className, config, screen }) => {
   const [nav, setNav] = useState('');
   const [expanded, setExpanded] = useState(false);
   const handleError = useErrorHandler();
+  const [logo, setLogo] = useState(wkndlogo);
 
   let obj = {
     pos1: { name: '', path: '#' },
@@ -40,10 +41,11 @@ const Navigation = ({ className, config, screen }) => {
   };
   
   
-  let logo = wkndlogo;
+  
   useEffect(() => {
     console.log(config);
-    logo = config && config.configurationByPath && config.configurationByPath.item.siteLogo._publishUrl;
+    if(config && config.configurationByPath) 
+      setLogo(config.configurationByPath.item.siteLogo._publishUrl);
     const sdk = prepareRequest();
     
 
@@ -56,7 +58,7 @@ const Navigation = ({ className, config, screen }) => {
       .catch((error) => {
         handleError(error);
       });
-  }, [handleError]);
+  }, [handleError, config]);
 
   nav && nav.data.screenList.items.forEach((item) => {
     let name = '';

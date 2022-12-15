@@ -161,6 +161,7 @@ div[role=status] {
   --main-color:#fff;
   --main-color-opacity:rgba(4,25,45,.55);
   --main-color-opacity-lighter:rgba(4,25,45,.45);
+  --main-color-opacity-darker:rgba(4,25,45,.95);
   --main-light-background: #EBEBEB;
   --font-family: "wknd-icon-font" !important;
   --main-nav-link-color: #fff;
